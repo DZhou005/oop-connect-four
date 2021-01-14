@@ -24,16 +24,51 @@ function updateUI() {
     }
   }
 
+  for ( let i = 0; i <= 6; i++) {
+    for (let i = 0; i <= 6; i++) {
+      let square = document.querySelector(`#square-${rowIndex}-${columnIndex}`)
+      square.innerHTML = ""
+
+      const playerNumber = game.getTokenAt(rowIndex, columnIndex)
+
+      if(playerNumber === 1) {
+        const token = document.createElement("div");
+
+        token.classList.add("token")
+        token.classList.add("black")
+        square.appendChild(token)
+
+      }
+      if (playerNumber === 2) {
+        const token = document.createElement("div");
+
+        token.classList.add("token")
+        token.classList.add("red")
+        square.appendChild(token)
+
+      }
+
+    }
+  }
+
 }
 
 window.addEventListener("DOMContentLoaded", (event) =>{
 
 
+
   click.addEventListener("click", event => {
-   game.playInColumn()
+    let targetId = event.target.id
 
-   updateUI()
+    if(!targetId.startsWith("column-")) {
+     return
+   }
 
+   let columnPos = Number.parseInt(targetId[targetId.length - 1])
+
+   game.playInColumn(columnPos)
+
+  updateUI()
   })
 
       function enableButtonWhenNamesFilled() {
