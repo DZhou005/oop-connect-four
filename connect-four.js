@@ -4,7 +4,7 @@ let game = undefined
 let playerOne= document.getElementById('player-1-name');
 let playerTwo= document.getElementById('player-2-name');
 let newgame = document.getElementById("new-game");
-
+let click = document.getElementById("click-targets")
 function updateUI() {
   let board = document.getElementById("board-holder");
 
@@ -14,10 +14,26 @@ function updateUI() {
       board.setAttribute('class', '');
       let gameName=document.getElementById('game-name');
       gameName.innerHTML= game.getName();
+      if (game.currentPlayer === 1) {
+        click.classList.add("black")
+        click.classList.remove("red")
+    } else {
+        click.classList.add("red")
+        click.classList.remove("black")
+    }
   }
+
 }
 
 window.addEventListener("DOMContentLoaded", (event) =>{
+
+
+  click.addEventListener("click", event => {
+   game.playInColumn()
+
+   updateUI()
+
+  })
 
       function enableButtonWhenNamesFilled() {
             let playerOneContent= playerOne.value;
