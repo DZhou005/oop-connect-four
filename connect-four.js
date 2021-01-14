@@ -5,6 +5,7 @@ let playerOne= document.getElementById('player-1-name');
 let playerTwo= document.getElementById('player-2-name');
 let newgame = document.getElementById("new-game");
 let click = document.getElementById("click-targets")
+
 function updateUI() {
   let board = document.getElementById("board-holder");
 
