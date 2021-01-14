@@ -1,48 +1,45 @@
 import {Game} from "./game.js"
 
-const game = undefined
+let game = undefined
+let playerOne= document.getElementById('player-1-name');
+let playerTwo= document.getElementById('player-2-name');
+let newgame = document.getElementById("new-game");
 
 function updateUI() {
-  const board = document.grabElementById("board-holder")
+  let board = document.getElementById("board-holder");
 
   if (game === undefined) {
-board.setAttribute("class", "is-invisible")
+      board.setAttribute("class", "is-invisible")
+  }else {
+      board.setAttribute('class', '');
+      let gameName=document.getElementById('game-name');
+      gameName.innerHTML= game.getName();
   }
 }
 
-windows.addEventListener("DOMContentLoaded", (event) =>{
-  let newgame = document.grabElementById("new-game")
+window.addEventListener("DOMContentLoaded", (event) =>{
 
+      function enableButtonWhenNamesFilled() {
+            let playerOneContent= playerOne.value;
+            let playerTwoContent= playerTwo.value;
+            newgame.disabled= (playerOneContent.length===0 ||
+                  playerTwoContent.length===0);
+      }
 
-  this.name1.addEventListener("keyup", (event) =>{
-
-   if (this.name1 !== undefined && this.name2 !== undefined) {
-
-     newgame.disabled = false
-   }
-   else {
-     newgame.disabled = true
-   }
+  playerOne.addEventListener("keyup", (event) =>{
+      enableButtonWhenNamesFilled();
   })
-   this.name2.addEventListener("keyup", (event) =>{
-
-    if (this.name1 !== undefined && this.name2 !== undefined) {
-
-      newgame.disabled = false
-    }
-    else {
-      newgame.disabled = true
-    }
+   playerTwo.addEventListener("keyup", (event) =>{
+      enableButtonWhenNamesFilled();
   })
+
     newgame.addEventListener("click", (event) =>{
-      game = new Game(this.name1, this.name2)
-        this.name1 = ""
-        this.name2 = ""
-
-      newgame.disabled = true
+      game = new Game(playerOne.value, playerTwo.value)
+      playerOne.value = "";
+      playerTwo.value = "";
+      enableButtonWhenNamesFilled()
 
       updateUI()
-
     })
 
 
