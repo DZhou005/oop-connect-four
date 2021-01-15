@@ -1,5 +1,7 @@
 import { Column } from "./column.js";
-import { ColumnWinInspector } from "./columnWinInspector.js"
+import { ColumnWinInspector } from "./columnWinInspector.js";
+import { RowWinInspector } from "./row-win-inspector.js";
+import { DiagonalWinInspector } from "./diagonalWinInspector.js";
 
 export class Game {
   constructor(name1, name2) {
@@ -41,15 +43,43 @@ export class Game {
     if(this.winnerNumber === 1 || this.winnerNumber === 2) {
       return true
     }
-
     return this.columns[columnIndex].isFull();
-
   }
+  checkForRowWin() {
+    if (this.winnerNumber!==0) {
+      return;
+    }
+    for (let columnIndex=0; columnIndex<4; columnIndex++) {
+      const columns=this.columns.slice(columnIndex, columnIndex+4);
+      const inspector= new RowWinInspector(columns);
+      const winnerNumber= inspector.inspect();
+      if (winnerNumber===1 || winnerNumber===2) {
+        this.winnerNumber= winnerNumber;
+        break;
+      }
+    }
+  }
+  checkForDiagonalWin() {
+    if (this.winnerNumber!==0) return;
+    for (let columnIndex=0; columnIndex<4; columnIndex++) {
+      const columns=this.columns.slice(columnIndex, columnIndex+4);
+      const inspector= new DiagonalWinInspector(columns);
+      const winnerNumber= inspector.inspect();
+      if (winnerNumber===1 || winnerNumber===2) {
+        this.winnerNumber= winnerNumber;
+        break;
+      }
+    }
+  }
+
+
 
   playInColumn(columnIndex) {
     this.columns[columnIndex].add(this.currentPlayer);
-      this.checkForTie()
-      this.checkForColumnWin()
+      this.checkForTie();
+      this.checkForColumnWin();
+      this.checkForRowWin();
+      this.checkForDiagonalWin();
       if (this.currentPlayer === 1) {
         this.currentPlayer = 2
       }
@@ -58,7 +88,7 @@ export class Game {
       }
 
   }
-  checkForTie(){
+  checkForTie() {
     if (this.columns.every(column => column.isFull())) {
       this.winnerNumber = 3
     }
