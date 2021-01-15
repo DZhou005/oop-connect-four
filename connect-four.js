@@ -8,7 +8,6 @@ let click = document.getElementById("click-targets")
 
 function updateUI() {
   let board = document.getElementById("board-holder");
-
   if (game === undefined) {
       board.setAttribute("class", "is-invisible")
   }else {
@@ -23,21 +22,27 @@ function updateUI() {
         click.classList.remove("black")
     }
   }
+  for (let columnIndex=0; columnIndex<=6; columnIndex++) {
+        const isColumnFull= game.isColumnFull(columnIndex);
+        const columnID= `column-${columnIndex}`;
+        const column=document.getElementById(columnID);
+        if (isColumnFull) {
+              column.classList.add('full');
+        }else{
+              column.classList.remove('full');
+        }
+  }
 
-  for ( let i = 0; i <= 6; i++) {
-    for (let i = 0; i <= 6; i++) {
+  for ( let rowIndex = 0; rowIndex <= 5; rowIndex++) {
+    for (let columnIndex = 0; columnIndex <= 6; columnIndex++) {
       let square = document.querySelector(`#square-${rowIndex}-${columnIndex}`)
       square.innerHTML = ""
-
-      const playerNumber = game.getTokenAt(rowIndex, columnIndex)
-
+      const playerNumber = game.getTokenAt(rowIndex,columnIndex)
       if(playerNumber === 1) {
         const token = document.createElement("div");
-
         token.classList.add("token")
         token.classList.add("black")
         square.appendChild(token)
-
       }
       if (playerNumber === 2) {
         const token = document.createElement("div");
@@ -45,17 +50,12 @@ function updateUI() {
         token.classList.add("token")
         token.classList.add("red")
         square.appendChild(token)
-
       }
-
     }
   }
-
 }
 
 window.addEventListener("DOMContentLoaded", (event) =>{
-
-
 
   click.addEventListener("click", event => {
     let targetId = event.target.id

@@ -1,4 +1,4 @@
-import { Column } from "./column";
+import { Column } from "./column.js";
 
 export class Game {
   constructor(name1, name2) {
@@ -23,6 +23,9 @@ export class Game {
   getTokenAt(rowIndex, columnIndex) {
     return this.columns[columnIndex].getTokenAt(rowIndex);
 
+  }
+  isColumnFull(columnIndex) {
+    return this.columns[columnIndex].isFull();
   }
 
   playInColumn(columnIndex) {
